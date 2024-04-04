@@ -1,13 +1,193 @@
-/* body {
+body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-} */
+}
+/*Color Variables*/
+:root {
+  --primary: #000000;
+  --accent: #ffffff;
+  --bg: #000000;
+  --bg-hover: #000000;
+}
+
+/*Task CSS*/
+.container {
+  max-width: 69em;
+  margin: 0 auto;
+  padding: 0 1em;
+}
+.title {
+  margin: 0;
+  padding: 0.5em;
+  text-align: center;
+  font-weight: 500;
+  font-size: 26px;
+  background: #ffffff;
+}
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn {
+  background: #ffffff;
+  color: #000000;
+  padding: 0.5rem 1rem;
+  border: 2px solid #000000;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 200ms linear;
+}
+.btn:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+/*Task*/
+.ul {
+  margin: 0;
+  padding: 1em 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.task-list {
+  list-style-type: none;
+  background: #ffffff;
+  padding: 14px 20px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+.tasklist-title p {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+  margin-top: 32px;
+}
+.tasklist-dis p {
+  font-size: 16px;
+  margin: 0;
+  margin-top: 10px;
+}
+.tasklist-status {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 10px;
+}
+.tasklist-status p {
+  color: #ffffff;
+  margin: 0;
+  margin-top: 10px;
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.task-btns {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.5em;
+  display: flex;
+  gap: 10px;
+}
+.task-btn {
+  border: navajowhite;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 2px;
+}
+.task-btn:nth-child(1) {
+  color: #00bcd4;
+}
+.task-btn:nth-child(2) {
+  color: red;
+}
+
+/* TaskFormModal.css */
+.task-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 2px solid #e6e6e6;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.task-modal h2 {
+  margin: 0;
+  margin-bottom: 16px;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.task-modal div {
+  display: grid;
+  align-items: center;
+  gap: 2px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.task-modal label {
+  color: #111111;
+}
+
+.task-modal input,
+.task-modal select {
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  grid-column: span 3;
+}
+.textarea {
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  grid-column: span 3;
+}
+
+.task-modal button {
+  background-color: #ffffff;
+  color: #4caf50;
+  padding: 0.5rem 1rem;
+  font-size: 16px;
+  border: 2px solid #4caf50;
+  margin-top: 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 200ms linear;
+  float: right;
+}
+
+.task-modal button:hover {
+  background-color: #45a049;
+  color: #ffffff;
+}
+@media (max-width: 48em) {
+  .task-modal {
+    max-width: 300px;
+  }
+}
