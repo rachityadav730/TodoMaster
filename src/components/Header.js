@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { AppContext } from "./AppContextProvider";
 // import { serverLink } from "../main";
 import { toast } from "react-hot-toast";
@@ -10,6 +10,28 @@ function Header() {
     useContext(AppContext);
 
   const handleLogout = async () => {
+
+    try {
+      setIsLoading(true);
+      const token = localStorage.getItem('accessToken');
+      const headers = {
+        'Content-Type': 'application/json', 
+        'authorization':  localStorage.getItem("actualtoken") , 
+      };       
+      const response = await axios.delete("http://localhost:3000/logout", { headers });
+      if (response.status == 200){
+       
+      }
+
+      setIsAuth(false);
+      setIsLoading(false);
+        if (!isAuth) return <Navigate to="/login" />;
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Logout failed:", error);
+      // Show error toast
+      toast.error("Logout failed. Please try again.");
+    }
     setIsLoading(true);
   };
 
@@ -31,9 +53,9 @@ function Header() {
 
         {isAuth ? (
           <>
-            <button disabled={loading} onClick={handleLogout} className="btn">
-              Logout
-            </button>
+            <ul onClick={handleLogout} >
+              {loading ? "Logging out..." : "Logout"}
+            </ul>
           </>
         ) : (
           <ul>

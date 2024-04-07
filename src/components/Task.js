@@ -4,6 +4,7 @@ import Modal from "react-modal";
 function Task({ task, onDelete, onEdit }) {
   const [open, setOpen] = React.useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [users, setUsers] = useState([]);
   const [editedTask, setEditedTask] = useState({
     title: "",
     description: "",
@@ -19,10 +20,20 @@ function Task({ task, onDelete, onEdit }) {
   };
 
   useEffect(() => {
+    const storedUsers = localStorage.getItem('all_users');
+    if (storedUsers) {
+      setUsers(JSON.parse(storedUsers));
+    }
+  }, []);
+
+  useEffect(() => {
     setEditedTask({
+      id: task.id,
       title: task.title,
       description: task.description,
       status: task.status,
+      submission_date: task.submission_date,
+      assign_user_id: task.assign_user_id
     });
   }, [task]);
 
@@ -43,11 +54,13 @@ function Task({ task, onDelete, onEdit }) {
       case "InProgress":
         return "#5bc0de";
       case "Complete":
-        return "#5cb85c"; 
+        return "#5cb85c";
       default:
         return "#000000";
     }
   };
+
+  const assignedUser = users.find(user => user.id === parseInt(task.assign_user_id));
 
   return (
     <li className="task-list">
@@ -83,6 +96,30 @@ function Task({ task, onDelete, onEdit }) {
               />
             </div>
             <div>
+              <label>Date:</label>
+              <input
+                type="date"
+                value={editedTask.submission_date}
+                onChange={(e) =>
+                  setEditedTask({ ...editedTask, submission_date: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label>User:</label>
+              <select
+                value={editedTask.assign_user_id}
+                onChange={(e) =>
+                  setEditedTask({ ...editedTask, assign_user_id: e.target.value })
+                }
+              >
+                <option value="">Select User</option>
+                {users.map(user => (
+                  <option key={user.id} value={user.id}>{user.name}</option>
+                ))}
+              </select>
+            </div>
+            <div>
               <label>Status:</label>
               <select
                 value={editedTask.status}
@@ -90,7 +127,7 @@ function Task({ task, onDelete, onEdit }) {
                   setEditedTask({ ...editedTask, status: e.target.value })
                 }
               >
-                <option value="Pending">Pending</option>
+                <option value="ToDo">To Do</option>
                 <option value="InProgress">In Progress</option>
                 <option value="Complete">Complete</option>
               </select>
@@ -107,10 +144,18 @@ function Task({ task, onDelete, onEdit }) {
             <div className="tasklist-title">
               <p>{task.title}</p>
             </div>
+            <div className="tasklist-date">
+              <p>Submission Date:{task.submission_date ? task.submission_date : 'Not Mentioned'}</p>
+            </div>
+            <div className="tasklist-dis">
+              <p>Assign User: {assignedUser ? assignedUser.name : 'Not Assigned'}</p>
+            </div>
             <div className="tasklist-dis">
               <p>{task.description}</p>
             </div>
+
           </div>
+
           <div className="task-btns">
             <button className="task-btn" onClick={handleEdit}>
               <svg
