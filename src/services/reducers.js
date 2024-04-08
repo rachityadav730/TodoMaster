@@ -18,6 +18,9 @@ const taskSlice = createSlice({
       const { taskId, updatedTask } = action.payload;
       state[taskId] = updatedTask;
     },
+    updateTasks: (state, action) => {
+      return action.payload;
+    },
   },
 });
 

@@ -35,7 +35,9 @@ export default function Register() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:3000/signup", {
+      const API_URL = `${process.env.REACT_APP_API_URL}/signup`  
+      console.log("API_URL",API_URL,process.env)
+      const response = await axios.post(API_URL, {
         user: {
           name,
           email,
@@ -147,7 +149,7 @@ export default function Register() {
                 _hover={{
                   bg: "blue.500",
                 }}
-                isDisabled={loading ? true : false}
+                // isDisabled={loading ? true : false}
                 onClick={handleForm}
               >
                 Sign up

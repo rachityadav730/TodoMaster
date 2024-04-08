@@ -17,10 +17,11 @@ function Header() {
       const headers = {
         'Content-Type': 'application/json', 
         'authorization':  localStorage.getItem("actualtoken") , 
-      };       
-      const response = await axios.delete("http://localhost:3000/logout", { headers });
+      };  
+      const API_URL = `${process.env.REACT_APP_API_URL}/logout`     
+      const response = await axios.delete(API_URL, { headers });
       if (response.status == 200){
-       
+        localStorage.removeItem("actualtoken")
       }
 
       setIsAuth(false);
@@ -46,14 +47,14 @@ function Header() {
           {" "}
           <Link to="/">Home</Link>
         </ul>
-        <ul>
+        {/* <ul>
           {" "}
           <Link to="/profile">Profile</Link>
-        </ul>
+        </ul> */}
 
         {isAuth ? (
           <>
-            <ul onClick={handleLogout} >
+            <ul style={{cursor: "pointer"}} onClick={handleLogout} >
               {loading ? "Logging out..." : "Logout"}
             </ul>
           </>

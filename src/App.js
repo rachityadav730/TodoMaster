@@ -6,22 +6,22 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Provider } from "react-redux";
 import store from "./services/store";
 import AllRoutes from "./components/AllRoutes";
-import TaskList from "./components/TaskList.js";
 import { Toaster } from 'react-hot-toast';
+// import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 function App() {
+  // const theme = createTheme();
   return (
     <div className="App">
       <Provider store={store}>
       <AppContextProvider>
         <BrowserRouter>
           <ChakraProvider>
+          {/* <ThemeProvider theme={theme}> */}
             <Header />
             <AllRoutes />
-              {/* <div className="container">
-          <TaskList />
-        </div> */}
             <Toaster />
+            {/* </ThemeProvider> */}
           </ChakraProvider>
         </BrowserRouter>
       </AppContextProvider>

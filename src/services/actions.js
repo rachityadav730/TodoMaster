@@ -11,3 +11,5 @@ export const editTask = createAction("tasks/editTask", (taskId, updatedTask) => 
       }
     };
   });
+export const updateTasks = createAction("tasks/updateTasks");
+

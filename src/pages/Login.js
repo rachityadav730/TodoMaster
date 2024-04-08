@@ -31,7 +31,7 @@ export default function Login() {
     try {
 
       // const API_URL = `${process.env.REACT_APP_API_URL}/login`
-      const API_URL = `http://localhost:3000/login`
+      const API_URL = `${process.env.REACT_APP_API_URL}/login`  
       const user = {
         email,
         password,
@@ -45,7 +45,6 @@ export default function Login() {
             const headers = response.headers;
             const contentType = headers['content-type'];
             const authorization = headers['authorization'];
-            console.log("check eahc values",user,response.data)
             localStorage.setItem("actualtoken", authorization);
             localStorage.setItem("all_users", JSON.stringify(response.data.status.data.all_users));
             // localStorage.setItem("token",response.data.status.token );
@@ -60,7 +59,7 @@ export default function Login() {
         }
        
     } catch (error) {
-      toast.error("something went wrong");
+      toast.error("Invalid Email or password.");
       setIsLoading(false);
       setIsAuth(false);
     }
@@ -123,7 +122,7 @@ export default function Login() {
                 _hover={{
                   bg: "blue.500",
                 }}
-                isDisabled={loading ? true : false}
+                // isDisabled={loading ? true : false}
                 onClick={handleForm}
               >
                 Sign in

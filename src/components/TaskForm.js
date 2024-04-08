@@ -58,7 +58,8 @@ function TaskForm({ onAddTask, openForm, setOpenForm, tasks_data }) {
         'Content-Type': 'application/json',
         'authorization': localStorage.getItem("actualtoken"),
       };
-      const response = await axios.post("http://localhost:3000/api/v1/todos", { to_do }, { headers });
+      const API_URL = `${process.env.REACT_APP_API_URL}/api/v1/todos`  
+      const response = await axios.post(API_URL, { to_do }, { headers });
       if (response.status == 200) {
         onAddTask(response.data.data);
       }
