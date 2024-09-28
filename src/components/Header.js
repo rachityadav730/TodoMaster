@@ -20,18 +20,22 @@ function Header() {
       };  
       const API_URL = `${process.env.REACT_APP_API_URL}/logout`     
       const response = await axios.delete(API_URL, { headers });
-      if (response.status == 200){
+      if (response.status == 200 ){
         localStorage.removeItem("actualtoken")
       }
-
       setIsAuth(false);
       setIsLoading(false);
         if (!isAuth) return <Navigate to="/login" />;
     } catch (error) {
       setIsLoading(false);
-      console.error("Logout failed:", error);
+      if (error.response.status == 401 ){
+        setIsAuth(false);
+        return <Navigate to="/login" />;
+      }
+      else{
+        toast.error("Logout failed. Please try again.");
+      }
       // Show error toast
-      toast.error("Logout failed. Please try again.");
     }
     setIsLoading(true);
   };

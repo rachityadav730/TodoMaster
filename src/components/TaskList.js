@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTask, deleteTask, editTask } from "../services/actions";
 import Task from "./Task";
 import TaskForm from "./TaskForm";
+import UserForm from "./UserForm"
 import axios from "axios";
 
 import {
@@ -21,15 +22,21 @@ function TaskList() {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state);
   const [showForm, setShowForm] = useState(false);
+  const [userForm, setUserForm] = useState(false);
   const [selectedUser, setSelectedUser] = useState("all");
   const [taskFilter, setTaskFilter] = useState("all");
   const [users, setUsers] = useState([]);
+  const [current_user, setCurrentUsers] = useState({});
   const [dueDatePassed, setDueDatePassed] = useState(false);
 
   useEffect(() => {
     const storedUsers = localStorage.getItem("all_users");
+    const user = localStorage.getItem("user");
     if (storedUsers) {
       setUsers(JSON.parse(storedUsers));
+    }
+    if(user){
+      setCurrentUsers(JSON.parse(user))
     }
   }, []);
 
@@ -58,6 +65,10 @@ function TaskList() {
   const handleAddTask = (task) => {
     dispatch(addTask(task));
     setShowForm(false);
+  };
+
+  const handleUserTask = (task) => {
+    setUserForm(false);
   };
 
   const handleDeleteTask = async (taskId) => {
@@ -95,21 +106,31 @@ function TaskList() {
     }
   };
 
+
   return (
     <div>
 
       <Box mt={10}>
         <Flex justify="space-between" align="center" mb={4}>
           <Heading as="h2">All Task</Heading>
-          <Button colorScheme="yellow" onClick={() => setShowForm(true)}>
-            Add New Task
-          </Button>
+          { current_user.admin &&
+            <Flex justify="space-between" >
+              <Button mr={4} colorScheme="yellow" onClick={() => setUserForm(true)}>
+              Add User
+              </Button>
+             <Button colorScheme="yellow" onClick={() => setShowForm(true)}>
+              Add New Task
+              </Button>
+            </Flex>
+          }
         </Flex>
         <Flex justifyContent="space-between" mt={4}>
           <Box>
             <FormControl>
-              <FormLabel>User:</FormLabel>
-              <Select
+              <FormLabel>User: { current_user.name}</FormLabel>
+              {
+                current_user.admin ? 
+                <Select
                 value={selectedUser}
                 onChange={(e) => setSelectedUser(e.target.value)}
               >
@@ -120,6 +141,9 @@ function TaskList() {
                   </option>
                 ))}
               </Select>
+                : ""
+              }
+             
             </FormControl>
           </Box>
 
@@ -151,11 +175,20 @@ function TaskList() {
         </FormControl>
       </Box>
 
-      {showForm && (
+      {showForm && current_user.admin && (
         <TaskForm
           onAddTask={handleAddTask}
           openForm={showForm}
           setOpenForm={setShowForm}
+          tasks_data={tasks}
+        />
+      )}
+
+      {userForm && current_user.admin && (
+        <UserForm
+          onAddTask={handleUserTask}
+          openForm={userForm}
+          setOpenForm={setUserForm}
           tasks_data={tasks}
         />
       )}
