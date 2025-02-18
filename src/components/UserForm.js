@@ -51,6 +51,7 @@ const UserForm = ({onAddTask, openForm, setOpenForm}) => {
           const response = await axios.post(API_URL, { user }, { headers });
           if (response.status == 200) {
             // onAddTask(response.data.data);
+            localStorage.setItem("all_users", JSON.stringify(response.data.data));
             setOpenForm(false);
           }
         // }

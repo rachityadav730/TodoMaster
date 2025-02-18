@@ -43,7 +43,7 @@ function Header() {
   return (
     <nav className="main-navbar">
       <div>
-        <h2> TODO APP</h2>
+        <h2> Task Manager APP</h2>
       </div>
 
       <div className="right-nav">
